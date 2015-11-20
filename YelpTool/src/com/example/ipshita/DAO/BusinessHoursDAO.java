@@ -1,13 +1,16 @@
 package com.example.ipshita.DAO;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.example.ipshita.bean.BusinessHoursBean;
 import com.example.ipshita.util.ConnectionFactory;
@@ -26,24 +29,36 @@ public class BusinessHoursDAO {
 			ptmt.setString(1, businessHoursBean.getBusiness_id());
 			
 			ptmt.setString(2, businessHoursBean.getDayOfTheWeek());
-			
+			ptmt.setTimestamp(3, null);
+			ptmt.setTimestamp(4, null);
 			if (!businessHoursBean.getClose().isEmpty()) {
-				String[] hourmin = businessHoursBean.getClose().split(":");
+				/*String[] hourmin = businessHoursBean.getClose().split(":");
 				int hour = Integer.parseInt(hourmin[0]);
 				int min = Integer.parseInt(hourmin[1]);
 				
 				Time time = new Time(hour, min, 0);
-				
-				ptmt.setTime(3,time );
+				*/
+				long time;
+				try {
+			      Date date =  hourMinFormatter.parse(businessHoursBean.getClose());
+			      java.sql.Timestamp ts = new Timestamp(date.getTime());
+				     
+					ptmt.setTimestamp(3, ts);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			if (!businessHoursBean.getOpen().isEmpty()) {
-				String[] hourmin = businessHoursBean.getOpen().split(":");
-				int hour = Integer.parseInt(hourmin[0]);
-				int min = Integer.parseInt(hourmin[1]);
-				
-				Time time = new Time(hour, min, 0);
-				
-				ptmt.setTime(4,time );
+				long time;
+				try {
+				      Date date = (Date) hourMinFormatter.parse(businessHoursBean.getOpen());
+				      java.sql.Timestamp ts = new Timestamp(date.getTime());
+					ptmt.setTimestamp(4, ts);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			ptmt.executeUpdate();
 			

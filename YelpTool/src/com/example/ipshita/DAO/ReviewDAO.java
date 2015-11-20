@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import com.example.ipshita.bean.ReviewBean;
 import com.example.ipshita.util.ConnectionFactory;
 
+import oracle.sql.CLOB;
+
 public class ReviewDAO {
 
 
