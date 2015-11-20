@@ -13,7 +13,7 @@ public class UserDAO {
 	public PreparedStatement add(UserBean userBean, Connection connection) {
 		
 		PreparedStatement ptmt = null;
-			String queryString = "INSERT INTO yelpUser(userID, userName) VALUES(?,?)";
+			String queryString = "INSERT INTO yelpUser(userID, Name) VALUES(?,?)";
 			
 			try {
 				ptmt = connection.prepareStatement(queryString);
