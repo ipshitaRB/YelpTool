@@ -1,9 +1,13 @@
 package com.example.ipshita.util;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import com.example.ipshita.DAO.AttributeDAO;
 import com.example.ipshita.DAO.BusinessDAO;
@@ -68,6 +72,136 @@ public class DatabaseUtil {
 		UserDAO dao = new UserDAO();
 		dao.add(userBean, connection);
 		
+	}
+
+	public static String[] getMainCategories(Connection connection) {
+		PreparedStatement preparedStatement = null;
+
+		String selectSQL = "SELECT DISTINCT MainCategory FROM BusinessCategories";
+		ArrayList<String> mainCategoryList = new ArrayList<>();
+		
+		try {
+			
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+
+			// execute select SQL stetement
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+
+				mainCategoryList.add(rs.getString("mainCategory"));
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+
+		}
+		
+		String[] mainCategories = new String[mainCategoryList.size()];
+		mainCategories = mainCategoryList.toArray(mainCategories);
+		return mainCategories;
+	}
+
+	public static String[] getSubCategories(Connection connection) {
+		PreparedStatement preparedStatement = null;
+
+		String selectSQL = "SELECT DISTINCT SubCategory FROM BusinessCategories";
+		ArrayList<String> subCategoryList = new ArrayList<>();
+		
+		try {
+			
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+
+			// execute select SQL stetement
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+
+				subCategoryList.add(rs.getString("subCategory"));
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+
+		}
+		
+		String[] subCategories = new String[subCategoryList.size()];
+		subCategories = subCategoryList.toArray(subCategories);
+		return subCategories;
+		
+	}
+
+	public static String[] getAllAttribues(Connection connection) {
+		PreparedStatement preparedStatement = null;
+
+		String selectSQL = "SELECT DISTINCT attribute FROM Attributes";
+		ArrayList<String> attributeList = new ArrayList<>();
+		
+		try {
+			
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+
+			// execute select SQL stetement
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+
+				attributeList.add(rs.getString("attribute"));
+
+			}
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+
+		}
+		
+		String[] attributes = new String[attributeList.size()];
+		attributes = attributeList.toArray(attributes);
+		return attributes;
 	}
 
 }

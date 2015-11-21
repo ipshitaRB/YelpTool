@@ -36,5 +36,11 @@ public class ConnectionFactory {
 		}
 		return connectionFactory;
 	}
+	
+	public static Connection getOJDBCConnection() throws SQLException {
+		Connection conn;
+		conn = ConnectionFactory.getInstance().getConnection();
+		return conn;
+	}
 
 }
